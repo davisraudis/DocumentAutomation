@@ -1,0 +1,54 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+
+<div class="row center_div">
+    <section>
+        <form method="post">
+            <div class="container login-container ">
+                <div class="row">
+                    <div class="col-md-6 login-form-2">
+                        <h3>Document Generator login</h3>
+                        <div asp-validation-summary="All" class="text-uppercase text-danger text-left"></div>
+                        <div class="form-group">
+                            <input asp-for="Input.Email" type="text" class="form-control" placeholder="E-mail" value="" />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input asp-for="Input.Password" type="password" class="form-control" placeholder="Password" value="" />
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox text-left">
+                                <label asp-for="Input.RememberMe" class="ForgetPwd">
+                                    <input asp-for="Input.RememberMe" />
+                                    @Html.DisplayNameFor(m => m.Input.RememberMe)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btnSubmit" value="Login" />
+                        </div>
+                        <div class="form-group text-left">
+                            @*<p>
+                                <a asp-page="./ForgotPassword">Forgot your password?</a>
+                            </p>*@
+                            <p>
+                                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="ForgetPwd">Register as a new user</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
