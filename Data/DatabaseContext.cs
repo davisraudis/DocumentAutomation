@@ -18,5 +18,7 @@ namespace DocumentAutomation.Data
         public DbSet<File> File { get; set; }
 
         public DbSet<Template> Template { get; set; }
+
+        public DbSet<TemplateVariable> TemplateVariable { get; set; }
     }
 }

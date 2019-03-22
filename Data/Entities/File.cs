@@ -16,6 +16,6 @@ namespace Data.Entities
 
         public DateTime CreateDate { get; set; }
 
-        public virtual Template Template { get; set; }
+        //public virtual Template Template { get; set; }
     }
 }

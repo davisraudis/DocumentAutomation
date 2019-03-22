@@ -26,5 +26,7 @@ namespace Data.Entities
         public virtual IdentityUser User { get; set; }
 
         public virtual IEnumerable<File> Files { get; set; }
+
+        public virtual IEnumerable<TemplateVariable> Variables { get; set; }
     }
 }

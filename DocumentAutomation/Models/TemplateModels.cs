@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
+using TemplateLayer.Entities;
 
 namespace DocumentAutomation.Models
 {
@@ -27,5 +27,7 @@ namespace DocumentAutomation.Models
         public string Description { get; set; }
 
         public IEnumerable<File> Files { get; set; }
+
+        public IEnumerable<TemplateVariable> Variables { get; set; }
     }
 }

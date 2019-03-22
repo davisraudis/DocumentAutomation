@@ -6,3 +6,42 @@
 
 <h2>@Html.DisplayFor(model => model.Name)</h2>
 
+@if (!Model.Variables.Any())
+{
+    <span class="text-danger">No generated values found or the document needs to be generated.</span>
+    <a asp-controller="Template" asp-action="GenerateTemplateValues" asp-route-id="@Model.Id"><input type="submit" class="btnSubmit" value="Generate values" /> </a>
+}
+else
+{
+    <table id="templateVariables" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var variable in Model.Variables)
+            {
+                <tr>
+
+                    <td>@Html.DisplayFor(model => variable.Id)</td>
+                    <td>@Html.DisplayFor(model => variable.Name)</td>
+                    <td>@variable.Type.ToString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var table = $('#templateVariables').DataTable();
+        table.MakeCellsEditable({
+            "onUpdate": myCallbackFunction
+        });
+    });
+</script>

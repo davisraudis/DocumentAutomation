@@ -32,7 +32,7 @@ namespace DocumentAutomation.Controllers
         }
 
         [HttpPost]
-        public void Create(TemplateBuildModel model)
+        public IActionResult Create(TemplateBuildModel model)
         {
             if (ModelState.IsValid)
             {
@@ -53,7 +53,11 @@ namespace DocumentAutomation.Controllers
                         _templateManager.CreateTemplateFile(_context, item, (int)templateId);
                     }
                 }
+
+                return GetTemplates();
             }
+
+            return Index();
         }
 
         public IActionResult GetTemplates()
@@ -77,9 +81,23 @@ namespace DocumentAutomation.Controllers
 
         public IActionResult GetTemplate(int id)
         {
-            var template = _templateManager.GetAllTemplates(_context);
+            var template = _templateManager.GetTemplate(_context, id);
+            var model = new TemplateViewModel
+            {
+                Id = template.Id,
+                Name = template.Name,
+                Description = template.Description,
+                Files = template.Files,
+                Variables = template.Variables
+            };
 
             return View("ViewTemplate", template);
+        }
+
+        public IActionResult GenerateTemplateValues(int id)
+        {
+            _templateManager.GenerateVariablesFromTemplateFiles(_context, id);
+            return GetTemplate(id);
         }
     }
 }

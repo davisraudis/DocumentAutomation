@@ -7,11 +7,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using TemplateLayer;
+using TemplateLayer.Entities;
 
 namespace LogicLayer.Managers
 {
     public class TemplateManager : ITemplateManager
     {
+        private readonly VariablesLogic _variablesLogic = new VariablesLogic();
+
         public void LoadDocument(string path)
         {
             WordprocessingDocument wordprocessingDocument = WordprocessingDocument.Open(path, true);
@@ -57,6 +61,45 @@ namespace LogicLayer.Managers
         public Template GetTemplate(DatabaseContext db, int templateId)
         {
             return db.Template.FirstOrDefault(t => t.Id == templateId);
+        }
+
+        public void GenerateVariablesFromTemplateFiles(DatabaseContext db, int templateId)
+        {
+            if (!db.TemplateVariable.Any(t => t.TemplateId == templateId))
+            {
+                var files = db.Template.FirstOrDefault(t => t.Id == templateId)?.Files;
+                List<Variable> extractedVariables = new List<Variable>();
+
+                if (files != null)
+                {
+                    foreach (var file in files)
+                    {
+                        if (extractedVariables.Any())
+                        {
+                            extractedVariables.Concat(_variablesLogic.ExtractDocumentVariables(file.Content));
+                        }
+                        else
+                        {
+                            extractedVariables = _variablesLogic.ExtractDocumentVariables(file.Content);
+                        }
+                    }
+                }
+
+                if (extractedVariables != null)
+                {
+                    foreach (var variable in extractedVariables)
+                    {
+                        db.TemplateVariable.Add(new TemplateVariable
+                        {
+                            Name = variable.VariableName,
+                            TemplateId = templateId,
+                            Type = variable.Type
+                        });
+                    }
+
+                    db.SaveChanges();
+                }
+            }
         }
     }
 }

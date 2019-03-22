@@ -16,5 +16,7 @@ namespace LogicLayer.Managers.Interfaces
         IEnumerable<Template> GetAllTemplates(DatabaseContext db);
 
         Template GetTemplate(DatabaseContext db, int templateId);
+
+        void GenerateVariablesFromTemplateFiles(DatabaseContext db, int templateId);
     }
 }
