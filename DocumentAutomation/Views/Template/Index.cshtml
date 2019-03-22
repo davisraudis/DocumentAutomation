@@ -1,0 +1,27 @@
+﻿@model DocumentAutomation.Models.TemplateBuildModel
+
+<div class="row">
+    <div asp-validation-summary="All" class="text-uppercase text-danger text-left"></div>
+    <form asp-controller="Template" enctype="multipart/form-data" asp-action="Create" method="post">
+        <div class="createTemplateInputContainter col-md-6">
+            <input asp-for="Name" type="text" class="form-control" placeholder="Name" value="" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+            <input asp-for="Description" type="text" class="form-control" placeholder="Description" value="" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <p>Upload one or more files using this form:</p>
+                    <input asp-for="Files" type="file" class="form-control" style="height:auto" multiple />
+                    <span asp-validation-for="Files" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btnSubmit" value="Create the template" />
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

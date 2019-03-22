@@ -43,7 +43,7 @@ namespace DocumentAutomation
             });
 
             services.AddDbContext<DatabaseContext>(options =>
-                options.UseSqlServer(
+                options.UseLazyLoadingProxies().UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<DatabaseContext>();
@@ -74,6 +74,8 @@ namespace DocumentAutomation
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute("areaRoute", "{area:exists}/{controller=Template}/{action=Index}/{id?}");
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

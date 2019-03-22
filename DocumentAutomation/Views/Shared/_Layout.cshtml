@@ -40,9 +40,17 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Template manager</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Template manager <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a asp-area="" asp-controller="Template" asp-action="Index">Create template</a></li>
+                                <li><a asp-area="" asp-controller="Template" asp-action="GetTemplates">View templates</a></li>
+                            </ul>
+                        </li>
+                        
                         <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                         <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

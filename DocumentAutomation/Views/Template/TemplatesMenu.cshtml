@@ -1,0 +1,44 @@
+﻿@model List<TemplateViewModel>
+
+Current available templates:
+
+<table id="templatesTable" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Files</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var template in Model)
+        {
+            <tr>
+
+                <td>@Html.DisplayFor(model => template.Id)</td>
+                <td>@Html.DisplayFor(model => template.Name)t</td>
+                <td>@Html.DisplayFor(model => template.Description)</td>
+                <td>
+                    @foreach (var file in template.Files)
+                    {
+                        @Html.DisplayFor(model => file.FileName)
+                        <br />
+                    }
+                </td>
+                <td><a asp-controller="Template" asp-action="GetTemplate" asp-route-id="@template.Id"><span class="glyphicon glyphicon-folder-open"></span> Open</a></td>
+            </tr>
+        }
+        </tbody>
+</table>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var table = $('#templatesTable').DataTable();
+        table.MakeCellsEditable({
+            "onUpdate": myCallbackFunction
+        });
+    });
+</script>
