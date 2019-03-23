@@ -19,6 +19,7 @@ else
                 <th>Id</th>
                 <th>Name</th>
                 <th>Type</th>
+                <th>Value</th>
             </tr>
         </thead>
         <tbody>
@@ -29,19 +30,69 @@ else
                     <td>@Html.DisplayFor(model => variable.Id)</td>
                     <td>@Html.DisplayFor(model => variable.Name)</td>
                     <td>@variable.Type.ToString()</td>
+                    <td>
+                        @if (string.IsNullOrEmpty(variable.Value))
+                        {
+
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(model => variable.Value)
+                        }
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
+
+    <a asp-controller="Template" asp-action="GenerateTemplateDocuments" asp-route-templateId="@Model.Id"><input type="submit" class="btnSubmit" value="Generate documents" /> </a>
+}
+
+@if (Model.GeneratedDocuments.Any())
+{
+    foreach (var document in Model.GeneratedDocuments)
+    {
+        @document.FileName
+
+        <a asp-controller="Template" asp-action="DownloadGeneratedDocument" asp-route-documentId="@document.Id"><span class="glyphicon glyphicon-folder-open">Download</span></a>
+        <br>
+    }
 }
 
 
 <script type="text/javascript">
+    function myCallbackFunction(updatedCell, updatedRow, oldValue) {
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            url: "@Url.Action("SetTemplateVariableValue", "Template")",
+            data: { templateId: @Model.Id, variableId: updatedRow.data()[0], value: updatedCell.data() }
+        }).done(function () {
+            location.reload();
+        });
+    }
 
     $(document).ready(function () {
         var table = $('#templateVariables').DataTable();
         table.MakeCellsEditable({
-            "onUpdate": myCallbackFunction
+            "onUpdate": myCallbackFunction,
+            "inputCss": 'my-input-class',
+            "columns": [3],
+            "allowNulls": {
+                "columns": [3],
+                "errorClass": 'error'
+            },
+            "confirmationButton": {
+                "confirmCss": 'my-confirm-class',
+                "cancelCss": 'my-cancel-class'
+            },
+            "inputTypes": [
+                {
+                    "column": 3,
+                    "type": "text",
+                    "options": null
+                }
+            ]
         });
     });
 </script>

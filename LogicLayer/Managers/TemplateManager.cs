@@ -15,6 +15,7 @@ namespace LogicLayer.Managers
     public class TemplateManager : ITemplateManager
     {
         private readonly VariablesLogic _variablesLogic = new VariablesLogic();
+        private readonly DocumentGenerator _documentGenerator = new DocumentGenerator();
 
         public void LoadDocument(string path)
         {
@@ -63,6 +64,15 @@ namespace LogicLayer.Managers
             return db.Template.FirstOrDefault(t => t.Id == templateId);
         }
 
+        public void SetTemplateVariableValue(DatabaseContext db, int templateId, int variableId, string value)
+        {
+            var template = GetTemplate(db, templateId);
+            var variable = template.Variables.FirstOrDefault(v => v.Id == variableId);
+
+            variable.Value = value;
+            db.SaveChanges();
+        }
+
         public void GenerateVariablesFromTemplateFiles(DatabaseContext db, int templateId)
         {
             if (!db.TemplateVariable.Any(t => t.TemplateId == templateId))
@@ -100,6 +110,46 @@ namespace LogicLayer.Managers
                     db.SaveChanges();
                 }
             }
+        }
+
+        public void GenerateTemplateDocumentsByVariables(DatabaseContext db, int templateId, string userId)
+        {
+            var template = GetTemplate(db, templateId);
+
+            if (template != null)
+            {
+                foreach (var file in template.Files)
+                {
+                    List<TemplateLayer.Entities.Variable> documentVariables = new List<TemplateLayer.Entities.Variable>();
+                    foreach (var variable in template.Variables)
+                    {
+                        documentVariables.Add(new TemplateLayer.Entities.Variable
+                        {
+                            VariableName = variable.Name,
+                            Value = variable.Value
+                        });
+                    }
+
+                    var document = _documentGenerator.GenerateDocumentByVariables(file.Content, documentVariables);
+                    var fileName = Path.GetFileNameWithoutExtension(file.FileName) + DateTime.Now.ToLongDateString().Trim('.') + Path.GetExtension(file.FileName);
+
+                    db.GeneratedDocument.Add(new GeneratedDocument
+                    {
+                        FileName = fileName,
+                        Content = document,
+                        GenerationDate = DateTime.Now,
+                        TemplateId = templateId,
+                        UserID = userId
+                    });
+                }
+
+                db.SaveChanges();
+            }
+        }
+
+        public GeneratedDocument GetGeneratedDocument(DatabaseContext db, int documentId)
+        {
+            return db.GeneratedDocument.FirstOrDefault(d => d.Id == documentId);
         }
     }
 }

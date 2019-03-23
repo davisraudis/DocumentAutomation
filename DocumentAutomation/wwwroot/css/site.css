@@ -106,3 +106,42 @@ body {
 .createTemplateInputContainter input{
     margin-bottom: 6px;
 }
+
+.my-input-class {
+    padding: 3px 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.my-confirm-class {
+    padding: 3px 6px;
+    font-size: 12px;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 4px;
+    background-color: #337ab7;
+    text-decoration: none;
+}
+
+.my-cancel-class {
+    padding: 3px 6px;
+    font-size: 12px;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 4px;
+    background-color: #a94442;
+    text-decoration: none;
+}
+
+.error {
+    border: solid 1px;
+    border-color: #a94442;
+}
+
+.destroy-button {
+    padding: 5px 10px 5px 10px;
+    border: 1px blue solid;
+    background-color: lightgray;
+}

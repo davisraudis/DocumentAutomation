@@ -14,5 +14,7 @@ namespace Data.Entities
         public VariableType Type { get; set; }
 
         public int? TemplateId { get; set; }
+
+        public string Value { get; set; }
     }
 }

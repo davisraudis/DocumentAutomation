@@ -18,5 +18,11 @@ namespace LogicLayer.Managers.Interfaces
         Template GetTemplate(DatabaseContext db, int templateId);
 
         void GenerateVariablesFromTemplateFiles(DatabaseContext db, int templateId);
+
+        void SetTemplateVariableValue(DatabaseContext db, int templateId, int variableId, string value);
+
+        void GenerateTemplateDocumentsByVariables(DatabaseContext db, int templateId, string userId);
+
+        GeneratedDocument GetGeneratedDocument(DatabaseContext db, int documentId);
     }
 }

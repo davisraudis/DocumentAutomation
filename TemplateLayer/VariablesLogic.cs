@@ -28,11 +28,14 @@ namespace TemplateLayer
                         if (!string.IsNullOrEmpty(match.Value))
                         {
                             var trimVariable = match.Value.Trim('[', ']');
-                            matchedVariables.Add(new Variable
+                            if(!matchedVariables.Any(v => v.VariableName == trimVariable))
                             {
-                                VariableName = trimVariable,
-                                Type = GetVariableType(trimVariable)
-                            });
+                                matchedVariables.Add(new Variable
+                                {
+                                    VariableName = trimVariable,
+                                    Type = GetVariableType(trimVariable)
+                                });
+                            }
                         }
                     }
                 }

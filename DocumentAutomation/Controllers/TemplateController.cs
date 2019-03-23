@@ -87,7 +87,7 @@ namespace DocumentAutomation.Controllers
                 Id = template.Id,
                 Name = template.Name,
                 Description = template.Description,
-                Files = template.Files,
+                Files = template.Files.OrderBy(f => f.CreateDate),
                 Variables = template.Variables
             };
 
@@ -98,6 +98,28 @@ namespace DocumentAutomation.Controllers
         {
             _templateManager.GenerateVariablesFromTemplateFiles(_context, id);
             return GetTemplate(id);
+        }
+
+        [HttpPost]
+        public void SetTemplateVariableValue([FromForm]int templateId, [FromForm]int variableId, [FromForm]string value)
+        {
+            _templateManager.SetTemplateVariableValue(_context, templateId, variableId, value);
+        }
+
+        public IActionResult GenerateTemplateDocuments(int templateId)
+        {
+            _templateManager.GenerateTemplateDocumentsByVariables(_context, templateId, User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            return GetTemplate(templateId);
+        }
+
+        [HttpGet]
+        public IActionResult DownloadGeneratedDocument(int documentId)
+        {
+            var document = _templateManager.GetGeneratedDocument(_context, documentId);
+            var content = new System.IO.MemoryStream(document.Content);
+            var contentType = "APPLICATION/octet-stream";
+            return File(content, contentType, document.FileName);
         }
     }
 }

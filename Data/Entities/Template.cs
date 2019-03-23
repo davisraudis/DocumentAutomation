@@ -28,5 +28,7 @@ namespace Data.Entities
         public virtual IEnumerable<File> Files { get; set; }
 
         public virtual IEnumerable<TemplateVariable> Variables { get; set; }
+
+        public virtual IEnumerable<GeneratedDocument> GeneratedDocuments { get; set; }
     }
 }

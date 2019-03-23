@@ -4,14 +4,16 @@ using DocumentAutomation.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DocumentAutomation.Data.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190322160856_TemplateVariablesValue")]
+    partial class TemplateVariablesValue
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,31 +40,6 @@ namespace DocumentAutomation.Data.Migrations
                     b.HasIndex("TemplateId");
 
                     b.ToTable("File");
-                });
-
-            modelBuilder.Entity("Data.Entities.GeneratedDocument", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<byte[]>("Content");
-
-                    b.Property<string>("FileName");
-
-                    b.Property<DateTime>("GenerationDate");
-
-                    b.Property<int>("TemplateId");
-
-                    b.Property<string>("UserID");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TemplateId");
-
-                    b.HasIndex("UserID");
-
-                    b.ToTable("GeneratedDocument");
                 });
 
             modelBuilder.Entity("Data.Entities.Template", b =>
@@ -280,18 +257,6 @@ namespace DocumentAutomation.Data.Migrations
                     b.HasOne("Data.Entities.Template")
                         .WithMany("Files")
                         .HasForeignKey("TemplateId");
-                });
-
-            modelBuilder.Entity("Data.Entities.GeneratedDocument", b =>
-                {
-                    b.HasOne("Data.Entities.Template")
-                        .WithMany("GeneratedDocuments")
-                        .HasForeignKey("TemplateId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("Data.Entities.Template", b =>

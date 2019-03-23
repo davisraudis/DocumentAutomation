@@ -10,5 +10,7 @@ namespace TemplateLayer.Entities
         public string VariableName { get; set; }
 
         public VariableType Type { get; set; }
+
+        public string Value { get; set; }
     }
 }
