@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
+
+@inject SignInManager<Data.Entities.ApplicationUser> SignInManager
 
 <!DOCTYPE html>
 <html>
@@ -47,7 +48,7 @@
                                 <li><a asp-area="" asp-controller="Template" asp-action="GetTemplates">View templates</a></li>
                             </ul>
                         </li>
-                        
+
                         <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                         <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
 

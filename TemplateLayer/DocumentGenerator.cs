@@ -32,14 +32,10 @@ namespace TemplateLayer
                                 {
                                     foreach (var variable in variables)
                                     {
+                                        //var matchRegex = new Regex($@"(\[\[(?< variableName > (.+?))(?<expression>\:((?<defaultValue>\(.+?\))?)((?<variableDescription>\".+?\")?))?]\])");
                                         var matchRegex = new Regex($@"(\[\[{variable.VariableName}]\])");
                                         text.Text = matchRegex.Replace(text.Text, variable.Value ?? string.Empty);
-                                        //if (variable.VariableName == match.Value.Trim('[', ']'))
-                                        //{
-                                        //    text.Text = rx.Replace(text.Text, variable.Value ?? string.Empty, 1);
-                                        //    break;
-                                        //}
-                                    }            
+                                    }
                                 }
                             }
                         }
@@ -47,31 +43,31 @@ namespace TemplateLayer
 
                     foreach (var text in body.Descendants<Text>())
                     {
+                        foreach (var variable in variables)
+                        {
+                            if (text.Text == variable.VariableName)
+                            {
+                                var matchRegex = new Regex($"{variable.VariableName}");
+                                text.Text = matchRegex.Replace(text.Text, variable.Value ?? string.Empty);
+                            }
+                        }
                         foreach (Match match in rx.Matches(text.Text))
                         {
                             foreach (var variable in variables)
                             {
-                                var matchRegex = new Regex($@"(\[\[{variable.VariableName}]\])");
+                                var matchRegex = new Regex($@"(\[\[{variable.VariableName}?:]\])");
                                 text.Text = matchRegex.Replace(text.Text, variable.Value ?? string.Empty);
-                                //if (variable.VariableName == match.Value.Trim('[', ']'))
-                                //{
-                                //    text.Text = rx.Replace(text.Text, variable.Value ?? string.Empty, 1);
-
-                                //    //if (!string.IsNullOrEmpty(variable.Value))
-                                //    //{
-                                //    //    text.Text = text.Text.Remove(match.Index, match.Length).Insert(match.Index, variable.Value);
-                                //    //}
-                                //    //else
-                                //    //{
-                                //    //    text.Text = text.Text.Remove(match.Index, match.Length).Insert(match.Index, string.Empty);
-                                //    //}
-                                //    break;
-                                //}
                             }
                         }
                     }
+                    foreach (var text in body.Descendants<Text>())
+                    {
+                        var matchRegex = new Regex(@"\[\[");
+                        text.Text = matchRegex.Replace(text.Text, string.Empty);
+                        matchRegex = new Regex(@"\]\]");
+                        text.Text = matchRegex.Replace(text.Text, string.Empty);
+                    }
                 }
-
                 return stream.ToArray();
             }
         }

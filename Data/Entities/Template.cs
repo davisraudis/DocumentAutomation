@@ -23,7 +23,7 @@ namespace Data.Entities
         [Required]
         public DateTime CreateDate { get; set; }
 
-        public virtual IdentityUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
 
         public virtual IEnumerable<File> Files { get; set; }
 

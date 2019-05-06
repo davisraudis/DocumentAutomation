@@ -18,6 +18,7 @@ else
             <tr>
                 <th>Id</th>
                 <th>Name</th>
+                <th>Description</th>
                 <th>Type</th>
                 <th>Value</th>
             </tr>
@@ -26,20 +27,11 @@ else
             @foreach (var variable in Model.Variables)
             {
                 <tr>
-
                     <td>@Html.DisplayFor(model => variable.Id)</td>
                     <td>@Html.DisplayFor(model => variable.Name)</td>
+                    <td>@Html.DisplayFor(model => variable.Description)</td>
                     <td>@variable.Type.ToString()</td>
-                    <td>
-                        @if (string.IsNullOrEmpty(variable.Value))
-                        {
-
-                        }
-                        else
-                        {
-                            @Html.DisplayFor(model => variable.Value)
-                        }
-                    </td>
+                    <td>@Html.DisplayFor(model => variable.Value)</td>
                 </tr>
             }
         </tbody>
@@ -77,9 +69,9 @@ else
         table.MakeCellsEditable({
             "onUpdate": myCallbackFunction,
             "inputCss": 'my-input-class',
-            "columns": [3],
+            "columns": [4],
             "allowNulls": {
-                "columns": [3],
+                "columns": [4],
                 "errorClass": 'error'
             },
             "confirmationButton": {
@@ -88,7 +80,7 @@ else
             },
             "inputTypes": [
                 {
-                    "column": 3,
+                    "column": 4,
                     "type": "text",
                     "options": null
                 }

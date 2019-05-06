@@ -22,5 +22,7 @@ namespace DocumentAutomation.Data
         public DbSet<TemplateVariable> TemplateVariable { get; set; }
 
         public DbSet<GeneratedDocument> GeneratedDocument { get; set; }
+
+        public DbSet <ApplicationUser> ApplicationUser { get; set; }
     }
 }

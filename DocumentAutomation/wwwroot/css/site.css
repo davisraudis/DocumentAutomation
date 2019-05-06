@@ -145,3 +145,7 @@ body {
     border: 1px blue solid;
     background-color: lightgray;
 }
+
+#templateVariables table, th, td {
+    border: 1px solid black;
+}

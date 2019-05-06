@@ -103,7 +103,9 @@ namespace LogicLayer.Managers
                         {
                             Name = variable.VariableName,
                             TemplateId = templateId,
-                            Type = variable.Type
+                            Type = variable.Type,
+                            Description = variable.Description,
+                            DefaultValue = variable.DefaultValue
                         });
                     }
 

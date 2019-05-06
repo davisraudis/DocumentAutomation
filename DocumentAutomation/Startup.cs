@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using DocumentAutomation.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Data.Entities;
 
 namespace DocumentAutomation
 {
@@ -45,7 +46,7 @@ namespace DocumentAutomation
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseLazyLoadingProxies().UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<DatabaseContext>();
 
 

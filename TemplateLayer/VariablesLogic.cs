@@ -21,21 +21,25 @@ namespace TemplateLayer
             {
                 if(!string.IsNullOrEmpty(section.InnerText))
                 {
-                    Regex rx = new Regex(@"(\[\[.+?\]\])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                    Regex rx = new Regex($@"(\[\[(?<variableName>(.+?))(?<expression>\:((?<defaultValue>\(.+?\))?)((?<variableDescription>\'.+?\')?))?]\])", RegexOptions.Compiled);
                     var matches = rx.Matches(section.InnerText);
                     foreach (Match match in matches)
                     {
-                        if (!string.IsNullOrEmpty(match.Value))
+                        var variableName = match.Groups["variableName"].Value;
+                        var expression = match.Groups["expression"].Value;
+                        var defaultValue = match.Groups["defaultValue"].Value;
+                        var variableDescription = match.Groups["variableDescription"].Value;
+
+                        if (!matchedVariables.Any(v => v.VariableName == variableName))
                         {
-                            var trimVariable = match.Value.Trim('[', ']');
-                            if(!matchedVariables.Any(v => v.VariableName == trimVariable))
+                            matchedVariables.Add(new Variable
                             {
-                                matchedVariables.Add(new Variable
-                                {
-                                    VariableName = trimVariable,
-                                    Type = GetVariableType(trimVariable)
-                                });
-                            }
+                                VariableName = variableName,
+                                Type = GetVariableType(variableName),
+                                Value = defaultValue,
+                                Description = variableDescription,
+                                DefaultValue = defaultValue
+                            });
                         }
                     }
                 }
